@@ -101,6 +101,10 @@ const Tamplate = () => {
                                     type="file"
                                     className="file-input file-input-bordered file-input-primary w-full max-w-xs my-3"
                                 />
+
+                                <button className="btn btn-primary text-white w-full my-3">
+                                    Submit
+                                </button>
                             </form>
                         </div>
                     </dialog>
@@ -130,7 +134,8 @@ const Tamplate = () => {
                                 <td>Company Profile</td>
                                 <td className="flex gap-3">
                                     <button
-                                        className="btn btn-success text-white flex gap-2 tooltip tooltip-primary"  data-tip="Edit"
+                                        className="btn btn-success text-white flex gap-2 tooltip tooltip-primary"
+                                        data-tip="Edit"
                                         onClick={modal}
                                     >
                                         <svg
@@ -150,7 +155,8 @@ const Tamplate = () => {
                                     </button>
 
                                     <button
-                                        className="btn btn-error text-white flex gap-2 tooltip tooltip-primary"  data-tip="Delete"
+                                        className="btn btn-error text-white flex gap-2 tooltip tooltip-primary"
+                                        data-tip="Delete"
                                         onClick={modal}
                                     >
                                         <svg
@@ -220,6 +226,9 @@ const Tamplate = () => {
                                             type="file"
                                             className="file-input file-input-bordered file-input-primary w-full max-w-xs my-3"
                                         />
+                                        <button className="btn btn-primary text-white w-full my-3">
+                                            Submit
+                                        </button>
                                     </form>
                                 </div>
                             </dialog>

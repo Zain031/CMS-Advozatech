@@ -53,6 +53,9 @@ const Category = () => {
                                 placeholder="Name"
                                 className="input input-bordered input-primary w-full max-w-xs my-2"
                             />
+                            <button className="btn btn-primary text-white w-full my-3">
+                                Submit
+                            </button>
                         </form>
                     </div>
                 </dialog>
@@ -112,6 +115,9 @@ const Category = () => {
                                                 placeholder="Name"
                                                 className="input input-bordered input-primary w-full max-w-xs my-2"
                                             />
+                                            <button className="btn btn-primary text-white w-full my-3">
+                                                Submit
+                                            </button>
                                         </form>
                                     </div>
                                 </dialog>
