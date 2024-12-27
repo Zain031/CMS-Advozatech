@@ -146,7 +146,7 @@ const Category = () => {
                             method="dialog"
                             className="w-full flex flex-col items-center"
                         >
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                            <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                                 ✕
                             </button>
                             <input
@@ -210,7 +210,7 @@ const Category = () => {
                                             onSubmit={editForm}
                                         >
                                             {/* if there is a button in form, it will close the modal */}
-                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                                            <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                                                 ✕
                                             </button>
                                             <input

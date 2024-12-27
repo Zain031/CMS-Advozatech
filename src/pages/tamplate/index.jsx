@@ -35,7 +35,7 @@ const Tamplate = () => {
         fetch(`${process.env.API_URL}templates/${id}`, {
           method: "DELETE",
         })
-          .then((res) => res.json())
+          // .then((res) => res.json())
           .then((res2) => {
             Swal.fire("Deleted!", "Your file has been deleted.", "success");
             setData((prevData) => prevData.filter((item) => item.id !== id));
@@ -83,7 +83,7 @@ const Tamplate = () => {
     fetchData();
   }, []);
 
-  if (data.length === 0) {
+  if (!data) {
     return <div>Loading...</div>;
   }
 
