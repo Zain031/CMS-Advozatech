@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 const Category = () => {
     const [category,setCategory] = useState([]);
     const [edit, setEdit] = useState(false);
+
     const EditModal = (id) => {
         try {
             async function fetchData(id) {
@@ -62,7 +63,6 @@ const Category = () => {
         }
     };
 
-
     const editForm = (e) => {  
         e.preventDefault();
         const submitData = new FormData(e.target);
@@ -91,7 +91,7 @@ const Category = () => {
                 text: error,
             });
         }
-    }
+    };
 
     useEffect(() => {
         try {
