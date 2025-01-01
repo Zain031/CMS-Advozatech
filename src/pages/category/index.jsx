@@ -10,7 +10,7 @@ const Category = () => {
     const EditModal = (id) => {
         try {
             async function fetchData(id) {
-                fetch(`${process.env.API_URL}category-templates/${id}`)
+                fetch(`${process.env.API_URL}/category-templates/${id}`)
                     .then((res) => res.json())
                     .then((data) => setEdit(data));
             }
@@ -68,7 +68,7 @@ const Category = () => {
         const submitData = new FormData(e.target);
         
         try {
-            fetch(`${process.env.API_URL}category-templates/${edit?.id}`, {
+            fetch(`${process.env.API_URL}/category-templates/${edit?.id}`, {
                 method: "PUT",
                 // headers: {
                 //     "Content-Type": "application/json",
@@ -83,8 +83,10 @@ const Category = () => {
                         text: "Category Updated Successfully",
                     });
                     closeModal();
+                    // window.location.reload();
                 });       
         } catch (error) {
+            closeModal();
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -96,7 +98,7 @@ const Category = () => {
     useEffect(() => {
         try {
             async function fetchData() {
-            fetch(`${process.env.API_URL}category-templates`)
+            fetch(`${process.env.API_URL}/category-templates`)
                 .then((res) => res.json())
                 .then((data) => setCategory(data['data']));
             }
@@ -146,12 +148,15 @@ const Category = () => {
                             method="dialog"
                             className="w-full flex flex-col items-center"
                         >
-                            <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                            <button onClick={(e)=>{
+                                e.preventDefault()
+                                closeModal()}} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                                 ✕
                             </button>
                             <input
                                 type="text"
                                 placeholder="Name"
+                                name="name"
                                 className="input input-bordered input-primary w-full max-w-xs my-2"
                             />
                             <button className="btn btn-primary text-white w-full my-3">
@@ -210,7 +215,9 @@ const Category = () => {
                                             onSubmit={editForm}
                                         >
                                             {/* if there is a button in form, it will close the modal */}
-                                            <button onClick={closeModal} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                                            <button onClick={(e)=>{
+                                                e.preventDefault()
+                                                closeModal()}} className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                                                 ✕
                                             </button>
                                             <input

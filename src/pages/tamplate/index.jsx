@@ -6,7 +6,7 @@ import Headers from "../../layouts/partials/header";
 const Tamplate = () => {
   const [data, setData] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
-
+  const [category, setCategory] = useState([]);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -32,7 +32,7 @@ const Tamplate = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${process.env.API_URL}templates/${id}`, {
+        fetch(`${process.env.API_URL}/templates/${id}`, {
           method: "DELETE",
         })
           // .then((res) => res.json())
@@ -58,16 +58,22 @@ const Tamplate = () => {
 
   const closeModal = () => {
     setPreviewImage(null);
-    document.getElementById("my_modal_3").close();
-    document.getElementById("my_modal_4").close();
+    document.getElementById("my_modal_3")?.close();
+    document.getElementById("my_modal_4")?.close();
   };
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch(process.env.API_URL + "templates").then(
+        const response = await fetch(process.env.API_URL + "/templates").then(
           (res) => res.json()
         );
+        const categoryResponse = await fetch(process.env.API_URL + "/category-templates").then(
+          (res) => res.json()
+        );
+        if (!categoryResponse) {
+          console.log("No Data Category");
+        }
         if (!response) {
           console.log("No Data");
         }
@@ -75,6 +81,18 @@ const Tamplate = () => {
         console.log(
           response["data"].forEach((item) => console.log(item["image"]))
         );
+      } catch (error) {
+        console.log(error);
+      }
+      try {
+        const response = await fetch(process.env.API_URL + "/category-templates").then(
+          (res) => res.json()
+        );
+        if (!response) {
+          console.log("No Data");
+        }
+        setCategory(response["data"]);
+        console.log(response["data"]);
       } catch (error) {
         console.log(error);
       }
@@ -104,7 +122,7 @@ const Tamplate = () => {
                 Category
               </option>
               <option>Company Profile</option>
-              <option>Website CUstom</option>
+              <option>Website Custom</option>
               <option>Mobile Application</option>
               <option>UI/UX</option>
             </select>
@@ -143,8 +161,9 @@ const Tamplate = () => {
                       const formData = new FormData();
                       formData.append("title", e.target.title.value);
                       formData.append("price", e.target.price.value);
+                      formData.append("link", e.target.link.value);
                       formData.append("image", e.target.image.files[0]);
-                      await fetch(process.env.API_URL + `templates`, {
+                      await fetch(process.env.API_URL + `/templates`, {
                         method: "POST",
                         body: formData,
                       })
@@ -163,7 +182,9 @@ const Tamplate = () => {
               >
                 {/* if there is a button in form, it will close the modal */}
                 <button
-                  onClick={closeModal}
+                  onClick={(e)=>{
+                    e.preventDefault()
+                    closeModal()}}
                   className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
                 >
                   ✕
@@ -180,26 +201,20 @@ const Tamplate = () => {
                   name="price"
                   className="input input-bordered input-primary w-full max-w-xs my-2"
                 />
-                {/* <input
-                                    type="text"
-                                    placeholder="Link Address"
-                                    className="input input-bordered input-primary w-full max-w-xs my-3"
-                                /> */}
+                <input
+                    type="text"
+                    name='link'
+                    placeholder="Link Address"
+                    className="input input-bordered input-primary w-full max-w-xs my-3"
+                />
                 {/* <input
                                     type="text"
                                     placeholder="Quantity Purchased"
                                     className="input input-bordered input-primary w-full max-w-xs my-3"
                                 /> */}
-                {/* <select className="select select-primary w-full max-w-xs my-3">
-                                    <option disabled selected>
-                                        Category
-                                    </option>
-                                    <option>Company Profile</option>
-                                    <option>Website CUstom</option>
-                                    <option>Mobile Application</option>
-                                    <option>UI/UX</option>
-
-                                </select> */}
+                {category.map((item,index) => (
+                                                <option key={index} value={item.id}>{item.name}</option>
+                                            ))}
                 <div className="image-upload-container">
                   <h2 className="text-lg font-semibold">Select Image</h2>
                   <div className="current-image my-4">
@@ -237,7 +252,7 @@ const Tamplate = () => {
                 <th>Image</th>
                 <th>Name</th>
                 <th>Price</th>
-                {/* <th>Link Address</th> */}
+                <th>Link Address</th>
                 {/* <th>Quantity Purchased</th> */}
                 <th>Category</th>
                 <th>Action</th>
@@ -254,6 +269,7 @@ const Tamplate = () => {
                       </td>
                       <td>{item["title"]}</td>
                       <td>{item["price"]}</td>
+                      <td>{item['link']}</td>
                       {/* <td>http://example.com</td> */}
                       {/* <td>60</td> */}
                       <td>Company Profile</td>
@@ -318,9 +334,10 @@ const Tamplate = () => {
                               const formData = new FormData();
                               formData.append("title", e.target.title.value);
                               formData.append("price", e.target.price.value);
+                              formData.append("link", e.target.link.value);
                               formData.append("image", e.target.image.files[0]);
                               fetch(
-                                process.env.API_URL + `templates/${item.id}`,
+                                process.env.API_URL + `/templates/${item.id}`,
                                 {
                                   method: "PUT",
                                   body: formData,
@@ -340,7 +357,9 @@ const Tamplate = () => {
                           {/* if there is a button in form, it will close the modal */}
                           <button
                             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                            onClick={closeModal}
+                            onClick={(e)=>{
+                              e.preventDefault()
+                              closeModal()}}
                           >
                             ✕
                           </button>
@@ -358,25 +377,25 @@ const Tamplate = () => {
                             name="price"
                             className="input input-bordered input-primary w-full max-w-xs my-2"
                           />
-                          {/* <input
-                                            type="text"
-                                            placeholder="Link Address"
-                                            className="input input-bordered input-primary w-full max-w-xs my-3"
-                                        /> */}
+                          <input
+                              type="text"
+                              placeholder="Link Address"
+                              name="link"
+                              className="input input-bordered input-primary w-full max-w-xs my-3"
+                          />
                           {/* <input
                                             type="text"
                                             placeholder="Quantity Purchased"
                                             className="input input-bordered input-primary w-full max-w-xs my-3"
                                         /> */}
-                          {/* <select className="select select-primary w-full max-w-xs my-3">
+                          <select name="" className="select select-primary w-full max-w-xs my-3">
                                             <option disabled selected>
                                                 Category
                                             </option>
-                                            <option>Company Profile</option>
-                                            <option>Website CUstom</option>
-                                            <option>Mobile Application</option>
-                                            <option>UI/UX</option>
-                                        </select> */}
+                                            {category.map((item,index) => (
+                                                <option key={index} value={item.id}>{item.name}</option>
+                                            ))}
+                                        </select>
                           <div className="image-upload-container">
                             <h2 className="text-lg font-semibold">
                               Select Image
@@ -415,9 +434,9 @@ const Tamplate = () => {
                               onChange={handleImageChange}
                             />
                           </div>
-                          {/* <button type="submit" className="btn btn-primary mt-4">
-                                            Submit
-                                        </button> */}
+                          <button type="submit" className="btn btn-primary mt-4">
+                              Submit
+                          </button>
                         </form>
                       </div>
                     </dialog>
