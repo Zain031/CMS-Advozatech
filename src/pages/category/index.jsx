@@ -32,8 +32,8 @@ const Category = () => {
 
     const closeModal = () => {
         setEdit([])
-        document.getElementById("my_modal_4").close();
-        document.getElementById("my_modal_3").close();
+        document.getElementById("my_modal_4")?.close();
+        document.getElementById("my_modal_3")?.close();
     };
 
     const deleteModal = (id) => {
@@ -146,6 +146,26 @@ const Category = () => {
 
                         <form
                             method="dialog"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                async function fetchData() {
+                                    const submitData = new FormData(e.target);
+                                    fetch(`${process.env.API_URL}/category-templates`, {
+                                        method: "POST",
+                                        body: submitData,
+                                    })
+                                        .then((res) => res.json())
+                                        .then((data) => {
+                                            Swal.fire({
+                                                icon: "success",
+                                                title: "Success",
+                                                text: "Category Created Successfully",
+                                            });
+                                            closeModal();
+                                        });
+                                }
+                                fetchData()
+                            }}
                             className="w-full flex flex-col items-center"
                         >
                             <button onClick={(e)=>{
@@ -251,8 +271,8 @@ const Category = () => {
                                 </button>
                             </td>
                         </tr>
-                            </>
-                        ))}
+                    </>
+                ))}
                         
                     </tbody>
                 </table>

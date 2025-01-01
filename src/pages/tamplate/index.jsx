@@ -7,6 +7,7 @@ const Tamplate = () => {
   const [data, setData] = useState([]);
   const [previewImage, setPreviewImage] = useState(null);
   const [category, setCategory] = useState([]);
+  const [category_id, setCategory_id] = useState(null);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -57,6 +58,7 @@ const Tamplate = () => {
   };
 
   const closeModal = () => {
+    setCategory_id(null);
     setPreviewImage(null);
     document.getElementById("my_modal_3")?.close();
     document.getElementById("my_modal_4")?.close();
@@ -108,7 +110,7 @@ const Tamplate = () => {
   return (
     <>
       <Container>
-        <Headers title="Tamplate" />
+        <Headers title="Template" />
         <div className="overflow-x-auto">
           <div className="flex justify-end  mb-4 gap-6 px-10 ">
             <input
@@ -163,6 +165,7 @@ const Tamplate = () => {
                       formData.append("price", e.target.price.value);
                       formData.append("link", e.target.link.value);
                       formData.append("image", e.target.image.files[0]);
+                      formData.append("category_id", e.target.category_id.value);
                       await fetch(process.env.API_URL + `/templates`, {
                         method: "POST",
                         body: formData,
@@ -212,9 +215,11 @@ const Tamplate = () => {
                                     placeholder="Quantity Purchased"
                                     className="input input-bordered input-primary w-full max-w-xs my-3"
                                 /> */}
+                <select name="category_id" className="select select-primary w-full max-w-xs my-3">
                 {category.map((item,index) => (
-                                                <option key={index} value={item.id}>{item.name}</option>
+                                                <option selected={item.id} key={index} value={item.id}>{item.name}</option>
                                             ))}
+                </select>
                 <div className="image-upload-container">
                   <h2 className="text-lg font-semibold">Select Image</h2>
                   <div className="current-image my-4">
@@ -272,7 +277,7 @@ const Tamplate = () => {
                       <td>{item['link']}</td>
                       {/* <td>http://example.com</td> */}
                       {/* <td>60</td> */}
-                      <td>Company Profile</td>
+                      <td>Category_ID</td>
                       <td className="flex gap-3">
                         <button
                           className="btn btn-success text-white flex gap-2 tooltip tooltip-primary"
@@ -335,6 +340,7 @@ const Tamplate = () => {
                               formData.append("title", e.target.title.value);
                               formData.append("price", e.target.price.value);
                               formData.append("link", e.target.link.value);
+                              formData.append("category_id", e.target.category_id.value);
                               formData.append("image", e.target.image.files[0]);
                               fetch(
                                 process.env.API_URL + `/templates/${item.id}`,
@@ -388,14 +394,14 @@ const Tamplate = () => {
                                             placeholder="Quantity Purchased"
                                             className="input input-bordered input-primary w-full max-w-xs my-3"
                                         /> */}
-                          <select name="" className="select select-primary w-full max-w-xs my-3">
-                                            <option disabled selected>
-                                                Category
-                                            </option>
-                                            {category.map((item,index) => (
-                                                <option key={index} value={item.id}>{item.name}</option>
-                                            ))}
-                                        </select>
+                          <select name="category_id" className="select select-primary w-full max-w-xs my-3">
+                              <option disabled selected>
+                                  Category
+                              </option>
+                              {category.map((item,index) => (
+                                  <option key={index} value={item.id}>{item.name}</option>
+                              ))}
+                          </select>
                           <div className="image-upload-container">
                             <h2 className="text-lg font-semibold">
                               Select Image
